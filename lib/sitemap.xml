@@ -8,7 +8,14 @@
     {% assign docs = collection.docs | where_exp:'doc','doc.sitemap != false' %}
     {% for doc in docs %}
       <url>
-        <loc>{{ doc.url | replace:'/index.html','/' | absolute_url | xml_escape | remove_last: '/' }}</loc>
+        {% assign new_doc_url = doc.url | replace:'/index.html','/' | absolute_url | xml_escape %}
+        {% if new_doc_url.last == '/' %}
+          {% assign last_char_index = new_doc_url | size | minus: 1 %}
+          {% assign stripped_url = new_doc_url | slice: 0, last_char_index %}
+          <loc>{{ stripped_url }}</loc>
+        {% else %}
+          <loc>{{ new_doc_url }}</loc>
+        {% endif %}
         {% if doc.last_modified_at or doc.date %}
           <lastmod>{{ doc.last_modified_at | default: doc.date | date_to_xmlschema }}</lastmod>
         {% endif %}
@@ -19,7 +26,14 @@
   {% assign pages = site.html_pages | where_exp:'doc','doc.sitemap != false' | where_exp:'doc','doc.url != "/404.html"' %}
   {% for page in pages %}
     <url>
-      <loc>{{ page.url | replace:'/index.html','/' | absolute_url | xml_escape | remove_last: '/' }}</loc>
+      {% assign new_page_url = page.url | replace:'/index.html','/' | absolute_url | xml_escape %}
+      {% if new_page_url.last == '/' %}
+        {% assign last_char_index = new_page_url | size | minus: 1 %}
+        {% assign stripped_url = new_page_url | slice: 0, last_char_index %}
+        <loc>{{ stripped_url }}</loc>
+      {% else %}
+        <loc>{{ new_page_url }}</loc>
+      {% endif %}
       {% if page.last_modified_at %}
         <lastmod>{{ page.last_modified_at | date_to_xmlschema }}</lastmod>
       {% endif %}
@@ -30,6 +44,14 @@
   {% for file in static_files %}
     <url>
       <loc>{{ file.path | replace:'/index.html','/' | absolute_url | xml_escape | remove_last: '/' }}</loc>
+      {% assign new_file_url = file.url | replace:'/index.html','/' | absolute_url | xml_escape %}
+      {% if new_file_url.last == '/' %}
+        {% assign last_char_index = new_file_url | size | minus: 1 %}
+        {% assign stripped_url = new_file_url | slice: 0, last_char_index %}
+        <loc>{{ stripped_url }}</loc>
+      {% else %}
+        <loc>{{ new_file_url }}</loc>
+      {% endif %}
       <lastmod>{{ file.modified_time | date_to_xmlschema }}</lastmod>
     </url>
   {% endfor %}
