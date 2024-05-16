@@ -6,7 +6,8 @@
   {% for page in site.pages %}
     {% unless page.url == '/404.html' or page.url == '/sitemap.xml' %}
       {% assign url_to_check = page.url | absolute_url %}
-      {% if url_to_check | last == '/' %}
+      <p>Url last is: {{ url_to_check.last }} </p>
+      {% if url_to_check.last == '/' %}
         {% assign stripped_url = url_to_check | slice: 0, url_to_check.size | minus: 1 %}
       {% else %}
         {% assign stripped_url = url_to_check %}
