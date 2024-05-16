@@ -6,14 +6,7 @@
   {% for page in site.pages %}
     {% unless page.url == '/404.html' or page.url == '/sitemap.xml' %}
       {% assign url_to_check = page.url | absolute_url %}
-      {% if url_to_check == site.url %}
-        {% assign stripped_url = url_to_check %}
-      {% elsif url_to_check.last == '/' and url_to_check != site.url %}
-        {% assign last_char_index = url_to_check | size | minus: 1 %}
-        {% assign stripped_url = url_to_check | slice: 0, last_char_index %}
-      {% else %}
-        {% assign stripped_url = url_to_check %}
-      {% endif %}
+      {% assign stripped_url = url_to_check %}
       <url>
         <loc>{{ stripped_url | xml_escape }}</loc>
         {% if page.last_modified_at %}
