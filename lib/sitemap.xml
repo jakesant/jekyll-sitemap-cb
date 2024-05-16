@@ -8,7 +8,7 @@
       {% assign url_to_check = page.url | absolute_url %}
       <p>Url last is: {{ url_to_check.last }} </p>
       {% if url_to_check.last == '/' %}
-        {% assign stripped_url = url_to_check | slice: 0, url_to_check.size | minus: 1 %}
+        {% assign stripped_url = url_to_check | slice: 0, url_to_check.size %}
         <p>First strip URL</p>
       {% else %}
         {% assign stripped_url = url_to_check %}
