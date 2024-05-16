@@ -9,8 +9,10 @@
       <p>Url last is: {{ url_to_check.last }} </p>
       {% if url_to_check.last == '/' %}
         {% assign stripped_url = url_to_check | slice: 0, url_to_check.size | minus: 1 %}
+        <p>First strip URL</p>
       {% else %}
         {% assign stripped_url = url_to_check %}
+        <p>Second strip URL</p>
       {% endif %}
       <url>
         <loc>{{ stripped_url | xml_escape }}</loc>
